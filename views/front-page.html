@@ -1,0 +1,20 @@
+<div class="row" ng-class="'post-' + data.ID" ng-repeat="(key, data) in posts">
+    <section class="front-page-blog-post post post-single">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
+            <div class="font-page-blog-photo" style="background-image:url('[[data.acf.post_image.sizes.medium]]')"></div>
+        </div>
+        <div class="col-xs-12 col-sm-9 ">
+            <h2 class="post-title" ng-bind-html="data.title | to_raw"></h2>
+            <h3 class="post-date">[[data.date | date:'MM.d.y']]</h3>
+            <div class="content-wrapper" ng-bind-html="data.content | to_raw " ng-class="{'full-post' : expandedPost == data.ID}"></div>
+            <button class="show-more" ng-click="showFullPost(data.ID)">Show <span ng-hide="expandedPost == data.ID">More</span><span ng-hide="expandedPost != data.ID">Less</span></button>
+            <div>
+            </div>
+    </section>
+    </div>
+    <nav class="post-navigation">
+        <ul class="pager">
+            <li class="previous" ng-show="currentPage != 1"><a href="/page/[[(1 * currentPage-1)]]">Newer</a></li>';
+            <li class="next" ng-show="currentPage != numPages"><a href="/page/[[(1 * currentPage+1)]]">Older</a></li>';
+        </ul>
+    </nav>
