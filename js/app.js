@@ -1,4 +1,9 @@
 //Globals
+myLocalized = {
+    views: "http://thebettermentofseve.com/wp-content/themes/thenewbetterment/views/",
+    directives: "http://thebettermentofseve.com/wp-content/themes/thenewbetterment/directives/"
+};
+
 var $_global = {
     initialLoad: true,
     loadRouteExtension: function(page) {
@@ -7,15 +12,16 @@ var $_global = {
 
             return 'views/' + page + ".onload";
         } else {
+
             return myLocalized.views + page + ".html";
         }
     }
 };
 
-angular.module('theNewBetterment', ['ngRoute', 'ui.bootstrap', 'wordpressFilters', 'smoothScroll'], function($interpolateProvider) {
+angular.module('theNewBetterment', ['ngRoute', 'ui.bootstrap', 'wordpressFilters', 'smoothScroll'], ['$interpolateProvider', function($interpolateProvider) {
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
-    })
+    }])
     .config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider
@@ -25,13 +31,13 @@ angular.module('theNewBetterment', ['ngRoute', 'ui.bootstrap', 'wordpressFilters
                 },
                 controller: 'Main',
                 resolve: {
-                    postData: ['$q', '$route', '$http', function($q, $routeParams, $http) {
+                    postData: ['$q', '$route', '$http', function($q, $route, $http) {
                         var deferred = $q.defer();
                         if (!$_global.initialLoad) {
                             $http.get("/wp-json/posts?filter[posts_per_page]=2")
                                 .success(function(result, status, headers, config) {
                                     var data = {
-                                        currentPage: $routeParams.current.params.page,
+                                        currentPage: $route.current.params.page,
                                         numPages: headers('X-WP-TotalPages'),
                                         posts: result
                                     };
@@ -52,13 +58,13 @@ angular.module('theNewBetterment', ['ngRoute', 'ui.bootstrap', 'wordpressFilters
                 },
                 controller: 'Main',
                 resolve: {
-                    postData: ['$q', '$route', '$http', function($q, $routeParams, $http) {
+                    postData: ['$q', '$route', '$http', function($q, $route, $http) {
                         var deferred = $q.defer();
                         if (!$_global.initialLoad) {
-                            $http.get('/wp-json/posts?filter[posts_per_page]=1&page=' + $routeParams.current.params.page)
+                            $http.get('/wp-json/posts?filter[posts_per_page]=1&page=' + $route.current.params.page)
                                 .success(function(result, status, headers, config) {
                                     var data = {
-                                        currentPage: $routeParams.current.params.page,
+                                        currentPage: $route.current.params.page,
                                         numPages: headers('X-WP-TotalPages'),
                                         posts: result
                                     };
@@ -72,11 +78,9 @@ angular.module('theNewBetterment', ['ngRoute', 'ui.bootstrap', 'wordpressFilters
                         return deferred.promise;
                     }]
                 }
-            })
-            .when('/blog/:id', {
-                templateUrl: myLocalized.views + 'products2.html',
-                controller: 'Blog'
             });
+
+
 
     }])
     .controller('Main', ["$scope", "$location", "$log", 'postData', 'smoothScroll', function($scope, $location, $log, postData, smoothScroll) {

@@ -15,15 +15,15 @@ function my_scripts() {
 	wp_enqueue_script('jquery','https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
 	wp_enqueue_script('bootstrap',get_stylesheet_directory_uri() . '/js/vendor/bootstrap.min.js');
 
-
+	/* pre minified 
 	wp_enqueue_script('filters',get_stylesheet_directory_uri() . '/js/filters.js');
 	wp_enqueue_script('plugins',get_stylesheet_directory_uri() . '/js/plugins.js');
 	wp_enqueue_script('app',get_stylesheet_directory_uri() . '/js/app.js');
 	wp_enqueue_script('main',get_stylesheet_directory_uri() . '/js/main.js');
+	*/
+
+	wp_enqueue_script('app',get_stylesheet_directory_uri() . '/js/app.min.js');
 	
-
-	//wp_enqueue_script('app',get_stylesheet_directory_uri() . '/js/app.min.js');
-
 
 	wp_enqueue_style('googlefonts', 'http://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Open+Sans:400,300,700');
 	//wp_enqueue_style('animate', get_stylesheet_directory_uri() . '/bower_components/animate.less/animate.min.css');
